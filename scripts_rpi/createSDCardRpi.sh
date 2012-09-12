@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 #
 # createSDCardRpi.sh
 # 
@@ -9,7 +9,7 @@
 # - http://www.omappedia.org/wiki/SD_Configuration
 # - http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat
 #
-
+set -e
 # command line arguments
 PARAMETERS=$@
 
@@ -29,7 +29,7 @@ Usage: createSDCardRpi.sh /dev/sdx	[ -h ] \n	\n
 . config.ini
 CMDLINE="dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait"
 
-PTX_BSP=~/workspace/OSELAS.BSP-FG-Raspberry-2011.11.0
+#PTX_BSP=~/workspace/OSELAS.BSP-FG-Raspberry-2011.11.0
 FIRMWARE_LOC=$PTX_BSP/platform-RaspberryPi/build-target/firmware-0671d60180c8d10978b442de5ec9d083596a5f3f
 FIRMWARE_BOOT=$FIRMWARE_LOC/boot
 #images loc: Image, rootfs
@@ -141,108 +141,46 @@ check_umount_all()
 
 # Declare Format SD device routine
 formatSD () {
-dev=$1
-echo -n "formating : fdisk" $dev "... "
-
-# retrieve disk size
-disk_size=`sudo fdisk $DEV_SDx_SDCARD -su`
-# We have to change geometry of the disk:
-# - 255 heads
-# - 63 sectors
-# - XXX: cylinders number as follows:
-# if we have 512 bytes per sector, 1 cylinder is 255 * 63 * 512 = 8225280 bytes
-# new_cylinders = Size / 8225280
-cylinders=$(( ($disk_size * 1024) / 8225280))
-echo "cylinders $cylinders"
+		  dev=$1
+		  echo -n "formating : fdisk" $dev "... "
 
 # erase first few bytes of the first sector, in case fdisk doesn't do it
-sudo dd if=/dev/zero of=$dev bs=512 count=1 >/dev/null 2>&1
+		  echo "erase first few bytes"
+		  sudo dd if=/dev/zero of=$dev bs=512 count=1 >/dev/null 2>&1
 
+		  echo "creating msdos disklabel"
+		  sudo parted -s $dev mklabel msdos
 
-# p		: display partitions
-# d1, d2, d3, d4: delete existing partition
-# x		: expert mode
-# h/255		: Set number of heads to 255
-# s/63		: Set number of sectors to 63
-# c/XXX		: Set number of cylinders to XXX
-# r		: non-expert mode
-# n/p/1/ /+64M	: create a new primary partition (nb 1) with 64Mb
-# n/p/2/ / 	: create a new primary partition (nb 2) with remaining disk space
-# t/1/c		: Change 1st partition 1 to c (W95 FAT32)
-# a/1		: 1st partition bootable (amorce)
-# p 		: display paritions
-# w 		: write to SDcard
-if sudo fdisk $dev >/dev/null 2>&1 <<EOF
-p
-d
-1
-d
-2
-d
-3
-d
-4
-x
-h
-255
-s
-63
-c
-$cylinders
-r
-n
-p
-1
+		  echo "creating fat32 partition"
+		  sudo parted -s $dev unit cyl mkpart primary fat32 -- 0 8
+		  sudo parted -s $dev set 1 boot on
 
-+64M
-n
-p
-2
+		  echo "creating ext4 partition"
+		  sudo parted -s $dev unit cyl mkpart primary ext4 -- 16 -2
+			  
+# display partitions
+		  sudo parted -s $dev print
 
+		  #sudo partprobe 
 
-t
-1
-c
-a
-1
-p
-w
-EOF
+		  check_umount_all $dev
 
-then
-	echo -e "\tDone."
-	
-	# display partitions
-	sudo fdisk -ls $dev
+		  echo "creating fat filesystem on "$dev"1"
+		  if sudo mkfs.vfat -F32 -n boot "$dev"1  >/dev/null 2>&1; then
+			  echo -e "\tDone."
+		  else
+			  echo "Failed."
+			  exit_failed
+		  fi
+		  echo "creating ext4 filesystem on "$dev"2"
+		  if sudo mkfs.ext4 -L rootfs "$dev"2  >/dev/null 2>&1; then
+		  		echo -e "\tDone."
+		  else
+		  		echo "Failed."
+		  		exit_failed             
+		  fi
 
-	sleep 2
-
-	check_umount_all $dev
-
-	echo -n "Creating FAT32 file system on "$dev$part"1 ... "
-	if sudo mkfs.vfat -F32 -n boot "$dev""$part"1  >/dev/null 2>&1; then
-		echo -e "\tDone."
-	else
-		echo "Failed."
-		exit_failed
-	fi
-
-# TODO (remove return) and continue with 2nd partition
-#	return 0
-
-	echo -n "Creating ext4 file system on "$dev$part"2 ... "
-	# Create ext4 file system
-	if sudo mkfs.ext4 -L rootfs "$dev""$part"2  >/dev/null 2>&1; then
-		echo -e "\tDone."
-	else
-		echo "Failed."
-		exit_failed		
-	fi
-else
-	exit_failed
-	return 1
-fi
-return 0
+		  return 0
 }
 
 
@@ -265,7 +203,7 @@ copy_bootloader()
 	if [ -d $FIRMWARE_BOOT ]; then
 		echo -n "Mounting SD card boot partition "$dev$part"1 ... "
 		# Mount SD card boot partition
-		if sudo mount -t vfat $dev$part"1" $SD_MNT_PT; then
+		if sudo mount -t vfat $dev"1" $SD_MNT_PT; then
 			echo -e "\tDone."
 		else
 			echo -e "\tFailed."
@@ -309,7 +247,7 @@ copy_bootloader()
 	fi
 
 	popd
-	echo -n "Uounting SD card boot partition "$dev$part"1 ... "
+	echo -n "Unmounting SD card boot partition "$dev$part"1 ... "
 	if sudo umount $SD_MNT_PT >/dev/null 2>&1; then
 		echo -e "\tDone."
 	else
