@@ -1,6 +1,9 @@
 OSELAS.BSP-FG-Raspberry-2011.11.0:
 
-derived from: OSELAS.BSP-Pengutronix-Generic-2011.11.0
+
+derived from: 
+https://github.com/fabricega/OSELAS.BSP-fga-Raspberry-2011.11.0
+OSELAS.BSP-Pengutronix-Generic-2011.11.0
 
 This PTXdist[1] based project supports:
 
@@ -8,9 +11,6 @@ This PTXdist[1] based project supports:
 
 For further information please read the following documents (part of this
 archive):
-
-For the generic PC (x86 architecture):
-documentation/OSELAS.BSP-Pengutronix-Generic-x86-Quickstart.pdf
 
 For the "versatilepb" (ARM architecture):
 documentation/OSELAS.BSP-Pengutronix-Generic-arm-Quickstart.pdf
@@ -27,6 +27,7 @@ Your Pengutronix Development Team
 Install guidelines :
 
 1 - install toolchain
+https://github.com/fabricega/OSELAS.Toolchain-2011.11.1
 OSELAS.Toolchain-2011.11.1
 ==========================
 
