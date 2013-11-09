@@ -1,0 +1,75 @@
+From 31c122a2380bb3363d32197c9f08ecee9d85fcfb Mon Sep 17 00:00:00 2001
+From: Philip Taylor <ptaylor@broadcom.com>
+Date: Tue, 28 May 2013 17:20:49 +0100
+Subject: [PATCH 092/106] vchiq_util: Fix race condition in push/pop
+
+The lack of memory barriers could (very rarely) result in
+vchiu_queue_pop reading the next value before it had been written
+(getting either NULL, or a value that had been popped once already).
+---
+ .../vc04_services/interface/vchiq_arm/vchiq_util.c | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/drivers/misc/vc04_services/interface/vchiq_arm/vchiq_util.c b/drivers/misc/vc04_services/interface/vchiq_arm/vchiq_util.c
+index 03cece5..c2eefef 100644
+--- a/drivers/misc/vc04_services/interface/vchiq_arm/vchiq_util.c
++++ b/drivers/misc/vc04_services/interface/vchiq_arm/vchiq_util.c
+@@ -81,8 +81,20 @@ void vchiu_queue_push(VCHIU_QUEUE_T *queue, VCHIQ_HEADER_T *header)
+ 		}
+ 	}
+ 
++	/*
++	 * Write to queue->storage must be visible after read from
++	 * queue->read
++	 */
++	smp_mb();
++
+ 	queue->storage[queue->write & (queue->size - 1)] = header;
+ 
++	/*
++	 * Write to queue->storage must be visible before write to
++	 * queue->write
++	 */
++	smp_wmb();
++
+ 	queue->write++;
+ 
+ 	up(&queue->push);
+@@ -97,6 +109,13 @@ VCHIQ_HEADER_T *vchiu_queue_peek(VCHIU_QUEUE_T *queue)
+ 	}
+ 
+ 	up(&queue->push); // We haven't removed anything from the queue.
++
++	/*
++	 * Read from queue->storage must be visible after read from
++	 * queue->write
++	 */
++	smp_rmb();
++
+ 	return queue->storage[queue->read & (queue->size - 1)];
+ }
+ 
+@@ -110,8 +129,20 @@ VCHIQ_HEADER_T *vchiu_queue_pop(VCHIU_QUEUE_T *queue)
+ 		}
+ 	}
+ 
++	/*
++	 * Read from queue->storage must be visible after read from
++	 * queue->write
++	 */
++	smp_rmb();
++
+ 	header = queue->storage[queue->read & (queue->size - 1)];
+ 
++	/*
++	 * Read from queue->storage must be visible before write to
++	 * queue->read
++	 */
++	smp_mb();
++
+ 	queue->read++;
+ 
+ 	up(&queue->pop);
+-- 
+1.8.4.2
+
