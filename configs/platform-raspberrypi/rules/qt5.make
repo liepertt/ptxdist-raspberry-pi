@@ -17,12 +17,12 @@ PACKAGES-$(PTXCONF_QT5) += qt5
 #
 # Paths and names
 #
-QT5_VERSION	:= 5.2.0-beta1
-QT5_MD5		:= 50a8b1e0ee975354401082a20bbeacd8
+QT5_VERSION	:= 5.2.0
+QT5_MD5		:= 8f60b47ca9461831d940f579ee90517e
 QT5		:= qt-everywhere-opensource-src-$(QT5_VERSION)
 QT5_SUFFIX	:= tar.xz
-#QT5_URL		:= http://download.qt-project.org/official_releases/qt/5.2/${QT_VERSION}/single/$(QT5).$(QT5_SUFFIX)
-QT5_URL  := http://download.qt-project.org/development_releases/qt/5.2/5.2.0-beta1/single/qt-everywhere-opensource-src-5.2.0-beta1.tar.xz
+QT5_URL		:= http://download.qt-project.org/official_releases/qt/5.2/$(QT5_VERSION)/single/$(QT5).$(QT5_SUFFIX)
+#QT5_URL  := http://download.qt-project.org/development_releases/qt/5.2/5.2.0-beta1/single/qt-everywhere-opensource-src-5.2.0-beta1.tar.xz
 QT5_SOURCE	:= $(SRCDIR)/$(QT5).$(QT5_SUFFIX)
 QT5_DIR		:= $(BUILDDIR)/$(QT5)
 QT5_BUILD_OOT	:= YES
@@ -94,7 +94,6 @@ QT5_AUTOCONF := \
 	-no-sql-odbc \
 	-no-sql-psql \
 	-no-sql-sqlite2 \
-	-no-sql-sqlite1 \
 	-no-sse \
 	-no-sse2 \
 	-no-sse3 \
@@ -212,7 +211,6 @@ $(STATEDIR)/qt5.targetinstall:
 	@$(call install_copy, qt5, 0, 0, 0755, -, /usr/bin/qmlbundle)
 	@$(call install_copy, qt5, 0, 0, 0755, -, /usr/bin/qmlscene)
 	@$(call install_copy, qt5, 0, 0, 0755, -, /usr/bin/qmltestrunner)
-	@$(call install_copy, qt5, 0, 0, 0755, -, /usr/bin/v4)
 	@$(call install_copy, qt5, 0, 0, 0755, -, /usr/bin/xmlpatterns)
 	@$(call install_copy, qt5, 0, 0, 0755, -, /usr/bin/xmlpatternsvalidator)
 

@@ -1,4 +1,4 @@
-platform-raspberrypi
+/platform-raspberrypi
 selected_platformconfig
 selected_toolchain
 src
