@@ -1,0 +1,18 @@
+## SECTION=project_specific
+
+config RASPI_TEST
+	bool
+	prompt "raspi_test"
+	select HOST_CMAKE
+	help
+	  FIXME
+
+if RASPI_TEST
+
+config RASPI_TEST_TRUNK
+	bool
+	prompt "use trunk"
+	help
+	  Build trunk instead of latest release.
+
+endif
