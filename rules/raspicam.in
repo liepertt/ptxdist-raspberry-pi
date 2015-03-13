@@ -5,7 +5,6 @@ config RASPICAM
 	prompt "raspicam"
 	select HOST_CMAKE
 	select OPENCV
-	select RPI_USERLAND
 	help
 		This library allows to use the Raspberry Pi Camera. 
 

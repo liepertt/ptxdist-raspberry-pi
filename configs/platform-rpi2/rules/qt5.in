@@ -1,0 +1,90 @@
+## SECTION=qt
+
+menuconfig QT5
+	tristate
+	#select ICU
+	select LIBC_PTHREAD
+	select LIBC_DL
+	select LIBC_RT
+	select LIBC_M
+	select GCCLIBS_CXX
+	select GCCLIBS_GCC_S
+	select DBUS
+	select GLIB
+	select ZLIB	
+	select LIBXML2
+	select UDEV
+	select UDEV_LIBUDEV
+	select LIBPNG	
+	select LIBJPEG
+	select SQLITE
+
+	select OPENSSL
+	#select MESALIB
+	#select ALSA_LIB	
+	#select LIBXCB
+	#select XCB_PROTO
+	#select XCB_UTIL
+
+	#select XORG_LIB_X11
+	#select XORG_LIB_SM
+	#select XORG_PROTO_XEXT	
+	#select XORG_LIB_XINERAMA
+	#select XORG_LIB_XCURSOR	
+	#select XORG_LIB_XFIXES	
+	#select XORG_LIB_XRANDR
+	#select XORG_LIB_XRENDER
+	#select XORG_LIB_XCOMPOSITE
+	#select FONTCONFIG
+	#select FREETYPE		
+	#select XORG_PROTO_INPUT	
+	#select XORG_LIB_XI
+	#select XORG_PROTO_KB	
+	#select XORG_LIB_XKBUI
+
+	prompt "qt 5                          "
+	help
+	  Qt is a Widget Library for Linux.
+
+if QT5
+	config QT5_BLUETOOTH
+		bool
+		prompt "Qt5 Bluetooth"
+
+	config QT5_CONCURRENT
+		bool
+		prompt "Qt5 Concurrent"
+
+	config QT5_DBUS
+		bool
+		prompt "Qt5 DBus"
+
+	config QT5_NFC
+		bool
+		prompt "Qt5 NFC"
+
+	config QT5_QML
+		bool
+		prompt "Qt5 QML"
+
+	config QT5_SCRIPT
+		bool
+		prompt "Qt5 JavaScript"
+
+	config QT5_SERIALPORT
+		bool
+		prompt "Qt5 SerialPort"
+
+	config QT5_SQL
+		bool
+		prompt "Qt5 Sql"
+
+	config QT5_TEST
+		bool
+		prompt "Qt5 Test"
+
+	config QT5_WEBSOCKET
+		bool
+		prompt "Qt5 Websocket"
+endif
+

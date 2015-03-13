@@ -1,0 +1,8 @@
+## SECTION=project_specific
+
+config RPI_USERLAND
+	bool
+	prompt "rpi-userland"
+	select HOST_CMAKE
+	help
+		ARM side libraries used on Raspberry Pi

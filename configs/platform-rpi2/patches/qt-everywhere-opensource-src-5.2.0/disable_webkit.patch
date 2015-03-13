@@ -1,0 +1,16 @@
+--- qt-everywhere-opensource-src-5.2.0/qt.pro.orig	2014-01-11 12:19:28.790279851 +0100
++++ qt-everywhere-opensource-src-5.2.0/qt.pro	2014-01-11 12:20:04.156946077 +0100
+@@ -73,13 +73,9 @@
+ addModule(qtconnectivity, qtbase, qtdeclarative)
+ addModule(qtfeedback, qtdeclarative, qtmultimedia)
+ addModule(qtpim, qtdeclarative, qtjsondb)
+-addModule(qtwebkit, qtdeclarative, qtlocation qtmultimedia qtsensors, WebKit.pro)
+-addModule(qttools, qtbase, qtdeclarative qtactiveqt qtwebkit)
+-addModule(qtwebkit-examples, qtwebkit qttools)
+ addModule(qtimageformats, qtbase)
+ addModule(qtgraphicaleffects, qtdeclarative)
+ addModule(qtscript, qtbase, qttools)
+-addModule(qtquick1, qtscript, qtsvg qtxmlpatterns qtwebkit)
+ addModule(qtdocgallery, qtdeclarative, qtjsondb)
+ !win32:!mac:addModule(qtwayland, qtbase, qtdeclarative)
+ addModule(qtserialport, qtbase)

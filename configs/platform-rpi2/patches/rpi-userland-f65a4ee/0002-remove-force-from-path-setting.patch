@@ -1,0 +1,11 @@
+--- rpi-userland-f65a4ee/makefiles/cmake/vmcs.cmake.orig	2013-10-14 23:22:24.043541066 +0200
++++ rpi-userland-f65a4ee/makefiles/cmake/vmcs.cmake	2013-10-14 23:23:31.263540835 +0200
+@@ -10,7 +10,7 @@
+ if (ANDROID)
+   SET(VMCS_INSTALL_PREFIX "/vendor/brcm/islands" CACHE PATH "Prefix prepended to install directories" FORCE)
+ else()
+-  SET(VMCS_INSTALL_PREFIX "/opt/vc" CACHE PATH "Prefix prepended to install directories" FORCE)
++  SET(VMCS_INSTALL_PREFIX "/opt/vc" CACHE PATH "Prefix prepended to install directories")
+ endif()
+ 
+ SET(CMAKE_INSTALL_PREFIX "${VMCS_INSTALL_PREFIX}" CACHE INTERNAL "Prefix
