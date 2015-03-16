@@ -1,0 +1,31 @@
+From 14db92e41f3adb8d75a3f5ae0d7aaac5563b22ef Mon Sep 17 00:00:00 2001
+From: Heba Aamer <heba93aamer@gmail.com>
+Date: Tue, 27 Jan 2015 22:39:56 +0200
+Subject: [PATCH 165/193] staging: fbtft: fix Macros with complex values should
+ be enclosed in parentheses
+
+This patch fixes the following checkpatch.pl error:
+fix Macros with complex values should be enclosed in parentheses
+
+Signed-off-by: Heba Aamer <heba93aamer@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/fbtft/fb_pcd8544.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/fb_pcd8544.c b/drivers/staging/fbtft/fb_pcd8544.c
+index ab46ccf..1d1a865 100644
+--- a/drivers/staging/fbtft/fb_pcd8544.c
++++ b/drivers/staging/fbtft/fb_pcd8544.c
+@@ -33,7 +33,7 @@
+ #define DRVNAME	       "fb_pcd8544"
+ #define WIDTH          84
+ #define HEIGHT         48
+-#define TXBUFLEN       84*6
++#define TXBUFLEN       (84*6)
+ #define DEFAULT_GAMMA  "40" /* gamma is used to control contrast in this driver */
+ 
+ static unsigned tc = 0;
+-- 
+2.1.4
+

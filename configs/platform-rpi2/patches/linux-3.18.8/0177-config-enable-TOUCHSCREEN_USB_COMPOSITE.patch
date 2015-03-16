@@ -1,0 +1,37 @@
+From b3b705418969192f6453e3f795480f3deade5085 Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Sun, 22 Feb 2015 21:08:05 +0000
+Subject: [PATCH 177/193] config: enable TOUCHSCREEN_USB_COMPOSITE
+
+---
+ arch/arm/configs/bcm2709_defconfig | 1 +
+ arch/arm/configs/bcmrpi_defconfig  | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index 3cc3b1e..268f9d7 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -530,6 +530,7 @@ CONFIG_JOYSTICK_XPAD_FF=y
+ CONFIG_INPUT_TOUCHSCREEN=y
+ CONFIG_TOUCHSCREEN_ADS7846=m
+ CONFIG_TOUCHSCREEN_EGALAX=m
++CONFIG_TOUCHSCREEN_USB_COMPOSITE=m
+ CONFIG_INPUT_MISC=y
+ CONFIG_INPUT_AD714X=m
+ CONFIG_INPUT_ATI_REMOTE2=m
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index c63d8bb..65cec08 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -523,6 +523,7 @@ CONFIG_JOYSTICK_XPAD_FF=y
+ CONFIG_INPUT_TOUCHSCREEN=y
+ CONFIG_TOUCHSCREEN_ADS7846=m
+ CONFIG_TOUCHSCREEN_EGALAX=m
++CONFIG_TOUCHSCREEN_USB_COMPOSITE=m
+ CONFIG_INPUT_MISC=y
+ CONFIG_INPUT_AD714X=m
+ CONFIG_INPUT_ATI_REMOTE2=m
+-- 
+2.1.4
+

@@ -1,0 +1,89 @@
+From 93c6fd5eab53e9461bc1c3e4fd6704853d0cb653 Mon Sep 17 00:00:00 2001
+From: Phil Elwell <phil@raspberrypi.org>
+Date: Fri, 27 Feb 2015 15:10:24 +0000
+Subject: [PATCH 192/193] enc28j60: Add device tree compatible string and an
+ overlay
+
+---
+ arch/arm/boot/dts/Makefile                |  1 +
+ arch/arm/boot/dts/enc28j60-overlay.dts    | 29 +++++++++++++++++++++++++++++
+ drivers/net/ethernet/microchip/enc28j60.c | 11 +++++++++++
+ 3 files changed, 41 insertions(+)
+ create mode 100755 arch/arm/boot/dts/enc28j60-overlay.dts
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index af9150e..355aade 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -66,6 +66,7 @@ dtb-$(CONFIG_BCM2708_DT) += bcm2708-rpi-b-plus.dtb
+ dtb-$(CONFIG_BCM2709_DT) += bcm2709-rpi-2-b.dtb
+ dtb-$(RPI_DT_OVERLAYS) += bmp085_i2c-sensor-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += ds1307-rtc-overlay.dtb
++dtb-$(RPI_DT_OVERLAYS) += enc28j60-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += i2c-rtc-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += hifiberry-dac-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += hifiberry-dacplus-overlay.dtb
+diff --git a/arch/arm/boot/dts/enc28j60-overlay.dts b/arch/arm/boot/dts/enc28j60-overlay.dts
+new file mode 100755
+index 0000000..aa9b645
+--- /dev/null
++++ b/arch/arm/boot/dts/enc28j60-overlay.dts
+@@ -0,0 +1,29 @@
++// Overlay for the Microchip ENC28J60 Ethernet Controller
++/dts-v1/;
++/plugin/;
++
++/ {
++	compatible = "brcm,bcm2708";
++
++	fragment@0 {
++		target = <&spi0>;
++		__overlay__ {
++			/* needed to avoid dtc warning */
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			status = "okay";
++
++			spidev@0{
++				status = "disabled";
++			};
++
++			enc28j60@0{
++				compatible = "microchip,enc28j60";
++				reg = <0>; /* CE0 */
++				spi-max-frequency = <12000000>;
++				status = "okay";
++			};
++		};
++	};
++};
+diff --git a/drivers/net/ethernet/microchip/enc28j60.c b/drivers/net/ethernet/microchip/enc28j60.c
+index b1b5f66..c6b6e1a 100644
+--- a/drivers/net/ethernet/microchip/enc28j60.c
++++ b/drivers/net/ethernet/microchip/enc28j60.c
+@@ -1630,10 +1630,21 @@ static int enc28j60_remove(struct spi_device *spi)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_OF
++static const struct of_device_id enc28j60_of_match[] = {
++	{ .compatible = "microchip,enc28j60", },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, enc28j60_of_match);
++#endif
++
+ static struct spi_driver enc28j60_driver = {
+ 	.driver = {
+ 		   .name = DRV_NAME,
+ 		   .owner = THIS_MODULE,
++#ifdef CONFIG_OF
++		   .of_match_table = enc28j60_of_match,
++#endif
+ 	 },
+ 	.probe = enc28j60_probe,
+ 	.remove = enc28j60_remove,
+-- 
+2.1.4
+

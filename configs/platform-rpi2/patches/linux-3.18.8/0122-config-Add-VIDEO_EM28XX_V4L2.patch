@@ -1,0 +1,37 @@
+From 034d7598fb76f1ff6a0579425a511cdf519a7e57 Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Sun, 8 Feb 2015 17:16:15 +0000
+Subject: [PATCH 122/193] config: Add VIDEO_EM28XX_V4L2
+
+---
+ arch/arm/configs/bcm2709_defconfig | 1 +
+ arch/arm/configs/bcmrpi_defconfig  | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index ecdcd8b..d4c18fa 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -729,6 +729,7 @@ CONFIG_SMS_USB_DRV=m
+ CONFIG_DVB_B2C2_FLEXCOP_USB=m
+ CONFIG_DVB_AS102=m
+ CONFIG_VIDEO_EM28XX=m
++CONFIG_VIDEO_EM28XX_V4L2=m
+ CONFIG_VIDEO_EM28XX_ALSA=m
+ CONFIG_VIDEO_EM28XX_DVB=m
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 13d0461..898ebd2 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -722,6 +722,7 @@ CONFIG_SMS_USB_DRV=m
+ CONFIG_DVB_B2C2_FLEXCOP_USB=m
+ CONFIG_DVB_AS102=m
+ CONFIG_VIDEO_EM28XX=m
++CONFIG_VIDEO_EM28XX_V4L2=m
+ CONFIG_VIDEO_EM28XX_ALSA=m
+ CONFIG_VIDEO_EM28XX_DVB=m
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+-- 
+2.1.4
+

@@ -1,0 +1,56 @@
+From 491d1d7c13e16781156fc25efbabed4bdabbba3e Mon Sep 17 00:00:00 2001
+From: Dave Stevenson <6by9@users.noreply.github.com>
+Date: Thu, 26 Feb 2015 20:51:03 +0000
+Subject: [PATCH 188/193] BCM2835-V4L2: Fix compliance test failures
+
+VIDIOC_TRY_FMT and VIDIOC_S_FMT tests were faling due
+to reporting V4L2_COLORSPACE_JPEG when the colour
+format wasn't V4L2_PIX_FMT_JPEG.
+Now reports V4L2_COLORSPACE_SMPTE170M for YUV formats.
+---
+ drivers/media/platform/bcm2835/bcm2835-camera.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/bcm2835/bcm2835-camera.c b/drivers/media/platform/bcm2835/bcm2835-camera.c
+index e5a0010..eb4d831 100644
+--- a/drivers/media/platform/bcm2835/bcm2835-camera.c
++++ b/drivers/media/platform/bcm2835/bcm2835-camera.c
+@@ -774,7 +774,7 @@ static int vidioc_g_fbuf(struct file *file, void *fh,
+ 	a->fmt.bytesperline = (preview_port->es.video.width * 3)>>1;
+ 	a->fmt.sizeimage = (preview_port->es.video.width *
+ 			       preview_port->es.video.height * 3)>>1;
+-	a->fmt.colorspace = V4L2_COLORSPACE_JPEG;
++	a->fmt.colorspace = V4L2_COLORSPACE_SMPTE170M;
+ 
+ 	return 0;
+ }
+@@ -860,8 +860,10 @@ static int vidioc_g_fmt_vid_cap(struct file *file, void *priv,
+ 
+ 	if (dev->capture.fmt->fourcc == V4L2_PIX_FMT_RGB24)
+ 		f->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+-	else
++	else if (dev->capture.fmt->fourcc == V4L2_PIX_FMT_JPEG)
+ 		f->fmt.pix.colorspace = V4L2_COLORSPACE_JPEG;
++	else
++		f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
+ 	f->fmt.pix.priv = 0;
+ 
+ 	v4l2_dump_pix_format(1, bcm2835_v4l2_debug, &dev->v4l2_dev, &f->fmt.pix,
+@@ -904,10 +906,12 @@ static int vidioc_try_fmt_vid_cap(struct file *file, void *priv,
+ 	    f->fmt.pix.sizeimage < MIN_BUFFER_SIZE)
+ 		f->fmt.pix.sizeimage = MIN_BUFFER_SIZE;
+ 
+-	if (dev->capture.fmt->fourcc == V4L2_PIX_FMT_RGB24)
++	if (f->fmt.pix.pixelformat == V4L2_PIX_FMT_RGB24)
+ 		f->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+-	else
++	else if (f->fmt.pix.pixelformat == V4L2_PIX_FMT_JPEG)
+ 		f->fmt.pix.colorspace = V4L2_COLORSPACE_JPEG;
++	else
++		f->fmt.pix.colorspace = V4L2_COLORSPACE_SMPTE170M;
+ 	f->fmt.pix.priv = 0;
+ 
+ 	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
+-- 
+2.1.4
+

@@ -1,0 +1,24 @@
+From 7c069dee74749c6be39228e4ffc3774467e78177 Mon Sep 17 00:00:00 2001
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Thu, 26 Feb 2015 17:49:36 -0800
+Subject: [PATCH 191/193] Linux 3.18.8
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 6276fca..0b3f8a1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,6 +1,6 @@
+ VERSION = 3
+ PATCHLEVEL = 18
+-SUBLEVEL = 5
++SUBLEVEL = 8
+ EXTRAVERSION =
+ NAME = Diseased Newt
+ 
+-- 
+2.1.4
+

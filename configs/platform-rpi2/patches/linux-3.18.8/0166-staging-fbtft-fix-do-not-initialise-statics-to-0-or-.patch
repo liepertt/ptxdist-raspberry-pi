@@ -1,0 +1,31 @@
+From fcdb4ab8984dcba8b7f15eede54775abfe38ad24 Mon Sep 17 00:00:00 2001
+From: Heba Aamer <heba93aamer@gmail.com>
+Date: Tue, 27 Jan 2015 22:42:59 +0200
+Subject: [PATCH 166/193] staging: fbtft: fix do not initialise statics to 0 or
+ NULL
+
+This patch fixes the following checkpatch.pl error:
+fix do not initialise statics to 0 or NULL
+
+Signed-off-by: Heba Aamer <heba93aamer@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/fbtft/fb_pcd8544.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/fb_pcd8544.c b/drivers/staging/fbtft/fb_pcd8544.c
+index 1d1a865..8b9ebfb 100644
+--- a/drivers/staging/fbtft/fb_pcd8544.c
++++ b/drivers/staging/fbtft/fb_pcd8544.c
+@@ -36,7 +36,7 @@
+ #define TXBUFLEN       (84*6)
+ #define DEFAULT_GAMMA  "40" /* gamma is used to control contrast in this driver */
+ 
+-static unsigned tc = 0;
++static unsigned tc;
+ module_param(tc, uint, 0);
+ MODULE_PARM_DESC(tc, "TC[1:0] Temperature coefficient: 0-3 (default: 0)");
+ 
+-- 
+2.1.4
+

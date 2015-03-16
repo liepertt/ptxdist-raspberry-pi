@@ -1,0 +1,66 @@
+From bcea276b5e27376b72dd8a0301a400f7413f3510 Mon Sep 17 00:00:00 2001
+From: Eric Dumazet <edumazet@google.com>
+Date: Thu, 29 Jan 2015 21:35:05 -0800
+Subject: [PATCH 190/193] ipv4: tcp: get rid of ugly unicast_sock
+
+[ Upstream commit bdbbb8527b6f6a358dbcb70dac247034d665b8e4 ]
+
+In commit be9f4a44e7d41 ("ipv4: tcp: remove per net tcp_sock")
+I tried to address contention on a socket lock, but the solution
+I chose was horrible :
+
+commit 3a7c384ffd57e ("ipv4: tcp: unicast_sock should not land outside
+of TCP stack") addressed a selinux regression.
+
+commit 0980e56e506b ("ipv4: tcp: set unicast_sock uc_ttl to -1")
+took care of another regression.
+
+commit b5ec8eeac46 ("ipv4: fix ip_send_skb()") fixed another regression.
+
+commit 811230cd85 ("tcp: ipv4: initialize unicast_sock sk_pacing_rate")
+was another shot in the dark.
+
+Really, just use a proper socket per cpu, and remove the skb_orphan()
+call, to re-enable flow control.
+
+This solves a serious problem with FQ packet scheduler when used in
+hostile environments, as we do not want to allocate a flow structure
+for every RST packet sent in response to a spoofed packet.
+
+Signed-off-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ net/ipv4/ip_output.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
+
+diff --git a/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
+index d571157..4a2a074 100644
+--- a/net/ipv4/ip_output.c
++++ b/net/ipv4/ip_output.c
+@@ -1507,21 +1507,7 @@ static int ip_reply_glue_bits(void *dptr, char *to, int offset,
+  *	Generic function to send a packet as reply to another packet.
+  *	Used to send some TCP resets/acks so far.
+  */
+-static DEFINE_PER_CPU(struct inet_sock, unicast_sock) = {
+-	.sk = {
+-		.__sk_common = {
+-			.skc_refcnt = ATOMIC_INIT(1),
+-		},
+-		.sk_wmem_alloc	= ATOMIC_INIT(1),
+-		.sk_allocation	= GFP_ATOMIC,
+-		.sk_flags	= (1UL << SOCK_USE_WRITE_QUEUE),
+-		.sk_pacing_rate = ~0U,
+-	},
+-	.pmtudisc	= IP_PMTUDISC_WANT,
+-	.uc_ttl		= -1,
+-};
+-
+-void ip_send_unicast_reply(struct net *net, struct sk_buff *skb,
++void ip_send_unicast_reply(struct sock *sk, struct sk_buff *skb,
+ 			   const struct ip_options *sopt,
+ 			   __be32 daddr, __be32 saddr,
+ 			   const struct ip_reply_arg *arg,
+-- 
+2.1.4
+

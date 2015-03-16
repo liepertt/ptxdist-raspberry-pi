@@ -1,0 +1,56 @@
+From af370f43a60a4b6d47786cb1f18428d2e71a1da3 Mon Sep 17 00:00:00 2001
+From: Rainer Herbers <jherb1@cik.upb.de>
+Date: Sun, 15 Feb 2015 13:44:14 +0100
+Subject: [PATCH 129/193] Create bmp085_i2c-sensor-overlay.dts and update
+ Makefile
+
+---
+ arch/arm/boot/dts/Makefile                      |  1 +
+ arch/arm/boot/dts/bmp085_i2c-sensor-overlay.dts | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
+ create mode 100644 arch/arm/boot/dts/bmp085_i2c-sensor-overlay.dts
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 56830ef..69414f7 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -64,6 +64,7 @@ endif
+ dtb-$(CONFIG_BCM2708_DT) += bcm2708-rpi-b.dtb
+ dtb-$(CONFIG_BCM2708_DT) += bcm2708-rpi-b-plus.dtb
+ dtb-$(CONFIG_BCM2709_DT) += bcm2709-rpi-2-b.dtb
++dtb-$(RPI_DT_OVERLAYS) += bmp085_i2c-sensor-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += ds1307-rtc-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += hifiberry-dac-overlay.dtb
+ dtb-$(RPI_DT_OVERLAYS) += hifiberry-dacplus-overlay.dtb
+diff --git a/arch/arm/boot/dts/bmp085_i2c-sensor-overlay.dts b/arch/arm/boot/dts/bmp085_i2c-sensor-overlay.dts
+new file mode 100644
+index 0000000..b830bf2
+--- /dev/null
++++ b/arch/arm/boot/dts/bmp085_i2c-sensor-overlay.dts
+@@ -0,0 +1,23 @@
++// Definitions for BMP085/BMP180 digital barometric pressure and temperature sensors from Bosch Sensortec
++/dts-v1/;
++/plugin/;
++
++/ {
++        compatible = "brcm,bcm2708";
++
++        fragment@0 {
++                target = <&i2c1>;
++                __overlay__ {
++                        #address-cells = <1>;
++                        #size-cells = <0>;
++                        status = "okay";
++
++                        bmp085@77 {
++                                compatible = "bosch,bmp085";
++                                reg = <0x77>;
++                                default-oversampling = <3>;
++                                status = "okay";
++                        };
++                };
++        };
++};
+-- 
+2.1.4
+

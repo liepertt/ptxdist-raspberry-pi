@@ -1,0 +1,29 @@
+From 56553d6f45f5786077dccb715b682c3e1a34dd79 Mon Sep 17 00:00:00 2001
+From: Heba Aamer <heba93aamer@gmail.com>
+Date: Wed, 28 Jan 2015 15:29:05 +0200
+Subject: [PATCH 167/193] staging: fbtft: remove redundant .owner
+
+This patch fixes the following coccicheck warning:
+No need to set .owner here. The core will do it.
+
+Signed-off-by: Heba Aamer <heba93aamer@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/fbtft/flexfb.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/flexfb.c b/drivers/staging/fbtft/flexfb.c
+index 4eec888..90832c3 100644
+--- a/drivers/staging/fbtft/flexfb.c
++++ b/drivers/staging/fbtft/flexfb.c
+@@ -559,7 +559,6 @@ static const struct platform_device_id flexfb_platform_ids[] = {
+ static struct platform_driver flexfb_platform_driver = {
+ 	.driver = {
+ 		.name   = DRVNAME,
+-		.owner  = THIS_MODULE,
+ 	},
+ 	.id_table = flexfb_platform_ids,
+ 	.probe  = flexfb_probe_pdev,
+-- 
+2.1.4
+

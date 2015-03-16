@@ -1,0 +1,37 @@
+From 5d258b80950e45945db206708d055d53c09f3b1e Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Wed, 18 Feb 2015 22:00:00 +0000
+Subject: [PATCH 175/193] config: Add TOUCHSCREEN_EGALAX
+
+---
+ arch/arm/configs/bcm2709_defconfig | 1 +
+ arch/arm/configs/bcmrpi_defconfig  | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index 2e68695..08d38a2 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -527,6 +527,7 @@ CONFIG_JOYSTICK_XPAD=m
+ CONFIG_JOYSTICK_XPAD_FF=y
+ CONFIG_INPUT_TOUCHSCREEN=y
+ CONFIG_TOUCHSCREEN_ADS7846=m
++CONFIG_TOUCHSCREEN_EGALAX=m
+ CONFIG_INPUT_MISC=y
+ CONFIG_INPUT_AD714X=m
+ CONFIG_INPUT_ATI_REMOTE2=m
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 8674822..044a45a 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -520,6 +520,7 @@ CONFIG_JOYSTICK_XPAD=m
+ CONFIG_JOYSTICK_XPAD_FF=y
+ CONFIG_INPUT_TOUCHSCREEN=y
+ CONFIG_TOUCHSCREEN_ADS7846=m
++CONFIG_TOUCHSCREEN_EGALAX=m
+ CONFIG_INPUT_MISC=y
+ CONFIG_INPUT_AD714X=m
+ CONFIG_INPUT_ATI_REMOTE2=m
+-- 
+2.1.4
+

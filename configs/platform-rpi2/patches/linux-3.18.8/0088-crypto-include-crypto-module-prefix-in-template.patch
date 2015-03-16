@@ -1,0 +1,60 @@
+From 1b5741534207969492037b7d5623c19a076b26fd Mon Sep 17 00:00:00 2001
+From: Kees Cook <keescook@chromium.org>
+Date: Mon, 24 Nov 2014 16:32:38 -0800
+Subject: [PATCH 088/193] crypto: include crypto- module prefix in template
+
+commit 4943ba16bbc2db05115707b3ff7b4874e9e3c560 upstream.
+
+This adds the module loading prefix "crypto-" to the template lookup
+as well.
+
+For example, attempting to load 'vfat(blowfish)' via AF_ALG now correctly
+includes the "crypto-" prefix at every level, correctly rejecting "vfat":
+
+	net-pf-38
+	algif-hash
+	crypto-vfat(blowfish)
+	crypto-vfat(blowfish)-all
+	crypto-vfat
+
+Reported-by: Mathias Krause <minipli@googlemail.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Acked-by: Mathias Krause <minipli@googlemail.com>
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ crypto/ccm.c | 1 +
+ crypto/ctr.c | 1 +
+ crypto/gcm.c | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/crypto/ccm.c b/crypto/ccm.c
+index 647575b..003bbbd 100644
+--- a/crypto/ccm.c
++++ b/crypto/ccm.c
+@@ -881,3 +881,4 @@ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Counter with CBC MAC");
+ MODULE_ALIAS_CRYPTO("ccm_base");
+ MODULE_ALIAS_CRYPTO("rfc4309");
++MODULE_ALIAS_CRYPTO("ccm");
+diff --git a/crypto/ctr.c b/crypto/ctr.c
+index 3d81ff7..2386f73 100644
+--- a/crypto/ctr.c
++++ b/crypto/ctr.c
+@@ -467,3 +467,4 @@ module_exit(crypto_ctr_module_exit);
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("CTR Counter block mode");
+ MODULE_ALIAS_CRYPTO("rfc3686");
++MODULE_ALIAS_CRYPTO("ctr");
+diff --git a/crypto/gcm.c b/crypto/gcm.c
+index aefb74a..2e403f6 100644
+--- a/crypto/gcm.c
++++ b/crypto/gcm.c
+@@ -1444,3 +1444,4 @@ MODULE_AUTHOR("Mikko Herranen <mh1@iki.fi>");
+ MODULE_ALIAS_CRYPTO("gcm_base");
+ MODULE_ALIAS_CRYPTO("rfc4106");
+ MODULE_ALIAS_CRYPTO("rfc4543");
++MODULE_ALIAS_CRYPTO("gcm");
+-- 
+2.1.4
+

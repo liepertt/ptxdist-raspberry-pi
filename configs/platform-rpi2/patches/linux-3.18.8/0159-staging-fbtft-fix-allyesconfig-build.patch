@@ -1,0 +1,32 @@
+From 240c548c651670ed7033e49891f7884dc241f926 Mon Sep 17 00:00:00 2001
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Fri, 23 Jan 2015 17:20:25 +0300
+Subject: [PATCH 159/193] staging: fbtft: fix allyesconfig build
+
+There are two functions call reset() so the allyesconfig breaks.  Let's
+make this one static.
+
+Reported-by: Jim Davis <jim.epost@gmail.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Tested-by: Jim Davis <jim.epost@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index 7fe4fa0..9cc7d25 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -89,7 +89,7 @@ static int init_display(struct fbtft_par *par)
+ 	return 0;
+ }
+ 
+-void reset(struct fbtft_par *par)
++static void reset(struct fbtft_par *par)
+ {
+ 	if (par->gpio.reset == -1)
+ 		return;
+-- 
+2.1.4
+

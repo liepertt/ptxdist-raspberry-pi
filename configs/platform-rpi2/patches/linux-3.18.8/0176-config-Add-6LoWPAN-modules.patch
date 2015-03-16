@@ -1,0 +1,53 @@
+From 6ba089c6b80d303dcad6829f0c7725c1e9d79376 Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Sat, 21 Feb 2015 13:22:21 +0000
+Subject: [PATCH 176/193] config: Add 6LoWPAN modules
+
+---
+ arch/arm/configs/bcm2709_defconfig | 2 ++
+ arch/arm/configs/bcmrpi_defconfig  | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index 08d38a2..3cc3b1e 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -282,6 +282,7 @@ CONFIG_BRIDGE=m
+ CONFIG_VLAN_8021Q=m
+ CONFIG_VLAN_8021Q_GVRP=y
+ CONFIG_ATALK=m
++CONFIG_6LOWPAN=m
+ CONFIG_NET_SCHED=y
+ CONFIG_NET_SCH_CBQ=m
+ CONFIG_NET_SCH_HTB=m
+@@ -360,6 +361,7 @@ CONFIG_USB_IRDA=m
+ CONFIG_SIGMATEL_FIR=m
+ CONFIG_MCS_FIR=m
+ CONFIG_BT=m
++CONFIG_BT_6LOWPAN=m
+ CONFIG_BT_RFCOMM=m
+ CONFIG_BT_RFCOMM_TTY=y
+ CONFIG_BT_BNEP=m
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 044a45a..c63d8bb 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -275,6 +275,7 @@ CONFIG_BRIDGE=m
+ CONFIG_VLAN_8021Q=m
+ CONFIG_VLAN_8021Q_GVRP=y
+ CONFIG_ATALK=m
++CONFIG_6LOWPAN=m
+ CONFIG_NET_SCHED=y
+ CONFIG_NET_SCH_CBQ=m
+ CONFIG_NET_SCH_HTB=m
+@@ -353,6 +354,7 @@ CONFIG_USB_IRDA=m
+ CONFIG_SIGMATEL_FIR=m
+ CONFIG_MCS_FIR=m
+ CONFIG_BT=m
++CONFIG_BT_6LOWPAN=m
+ CONFIG_BT_RFCOMM=m
+ CONFIG_BT_RFCOMM_TTY=y
+ CONFIG_BT_BNEP=m
+-- 
+2.1.4
+

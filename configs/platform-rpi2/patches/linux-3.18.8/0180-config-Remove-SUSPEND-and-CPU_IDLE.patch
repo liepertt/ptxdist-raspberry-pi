@@ -1,0 +1,53 @@
+From c4d5d48519714ebabc2e1506f5a9eb79085f9bae Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Mon, 23 Feb 2015 18:06:38 +0000
+Subject: [PATCH 180/193] config: Remove SUSPEND and CPU_IDLE
+
+---
+ arch/arm/configs/bcm2709_defconfig | 3 +--
+ arch/arm/configs/bcmrpi_defconfig  | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index 268f9d7..1c88a5e 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -55,7 +55,6 @@ CONFIG_SECCOMP=y
+ CONFIG_ZBOOT_ROM_TEXT=0x0
+ CONFIG_ZBOOT_ROM_BSS=0x0
+ CONFIG_CMDLINE="console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait"
+-CONFIG_KEXEC=y
+ CONFIG_CPU_FREQ=y
+ CONFIG_CPU_FREQ_STAT=m
+ CONFIG_CPU_FREQ_STAT_DETAILS=y
+@@ -64,11 +63,11 @@ CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
+ CONFIG_CPU_FREQ_GOV_USERSPACE=y
+ CONFIG_CPU_FREQ_GOV_ONDEMAND=y
+ CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
+-CONFIG_CPU_IDLE=y
+ CONFIG_VFP=y
+ CONFIG_NEON=y
+ CONFIG_KERNEL_MODE_NEON=y
+ CONFIG_BINFMT_MISC=m
++# CONFIG_SUSPEND is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 65cec08..b061992 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -59,9 +59,9 @@ CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
+ CONFIG_CPU_FREQ_GOV_USERSPACE=y
+ CONFIG_CPU_FREQ_GOV_ONDEMAND=y
+ CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
+-CONFIG_CPU_IDLE=y
+ CONFIG_VFP=y
+ CONFIG_BINFMT_MISC=m
++# CONFIG_SUSPEND is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+-- 
+2.1.4
+

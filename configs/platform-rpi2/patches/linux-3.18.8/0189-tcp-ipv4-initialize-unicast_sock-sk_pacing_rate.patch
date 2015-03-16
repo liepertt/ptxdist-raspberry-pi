@@ -1,0 +1,52 @@
+From 0a3bc305516453b75ea4cbb7bbc67dcf6c671c9d Mon Sep 17 00:00:00 2001
+From: Eric Dumazet <edumazet@google.com>
+Date: Wed, 28 Jan 2015 05:47:11 -0800
+Subject: [PATCH 189/193] tcp: ipv4: initialize unicast_sock sk_pacing_rate
+
+[ Upstream commit 811230cd853d62f09ed0addd0ce9a1b9b0e13fb5 ]
+
+When I added sk_pacing_rate field, I forgot to initialize its value
+in the per cpu unicast_sock used in ip_send_unicast_reply()
+
+This means that for sch_fq users, RST packets, or ACK packets sent
+on behalf of TIME_WAIT sockets might be sent to slowly or even dropped
+once we reach the per flow limit.
+
+Signed-off-by: Eric Dumazet <edumazet@google.com>
+Fixes: 95bd09eb2750 ("tcp: TSO packets automatic sizing")
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ net/ipv4/ip_output.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
+index 4a2a074..d571157 100644
+--- a/net/ipv4/ip_output.c
++++ b/net/ipv4/ip_output.c
+@@ -1507,7 +1507,21 @@ static int ip_reply_glue_bits(void *dptr, char *to, int offset,
+  *	Generic function to send a packet as reply to another packet.
+  *	Used to send some TCP resets/acks so far.
+  */
+-void ip_send_unicast_reply(struct sock *sk, struct sk_buff *skb,
++static DEFINE_PER_CPU(struct inet_sock, unicast_sock) = {
++	.sk = {
++		.__sk_common = {
++			.skc_refcnt = ATOMIC_INIT(1),
++		},
++		.sk_wmem_alloc	= ATOMIC_INIT(1),
++		.sk_allocation	= GFP_ATOMIC,
++		.sk_flags	= (1UL << SOCK_USE_WRITE_QUEUE),
++		.sk_pacing_rate = ~0U,
++	},
++	.pmtudisc	= IP_PMTUDISC_WANT,
++	.uc_ttl		= -1,
++};
++
++void ip_send_unicast_reply(struct net *net, struct sk_buff *skb,
+ 			   const struct ip_options *sopt,
+ 			   __be32 daddr, __be32 saddr,
+ 			   const struct ip_reply_arg *arg,
+-- 
+2.1.4
+

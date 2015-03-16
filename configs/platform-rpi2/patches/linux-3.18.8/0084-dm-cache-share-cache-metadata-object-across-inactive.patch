@@ -1,0 +1,54 @@
+From f9c8b9f86881c5b855daf987282cb15a54de7fe4 Mon Sep 17 00:00:00 2001
+From: Joe Thornber <ejt@redhat.com>
+Date: Fri, 23 Jan 2015 10:00:07 +0000
+Subject: [PATCH 084/193] dm cache: share cache-metadata object across inactive
+ and active DM tables
+
+commit 9b1cc9f251affdd27f29fe46d0989ba76c33faf6 upstream.
+
+If a DM table is reloaded with an inactive table when the device is not
+suspended (normal procedure for LVM2), then there will be two dm-bufio
+objects that can diverge.  This can lead to a situation where the
+inactive table uses bufio to read metadata at the same time the active
+table writes metadata -- resulting in the inactive table having stale
+metadata buffers once it is promoted to the active table slot.
+
+Fix this by using reference counting and a global list of cache metadata
+objects to ensure there is only one metadata object per metadata device.
+
+Signed-off-by: Joe Thornber <ejt@redhat.com>
+Signed-off-by: Mike Snitzer <snitzer@redhat.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/md/dm-cache-metadata.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/md/dm-cache-metadata.c b/drivers/md/dm-cache-metadata.c
+index 1e64e9c..6de72d5 100644
+--- a/drivers/md/dm-cache-metadata.c
++++ b/drivers/md/dm-cache-metadata.c
+@@ -745,7 +745,7 @@ static struct dm_cache_metadata *lookup_or_open(struct block_device *bdev,
+ 		return cmd;
+ 
+ 	cmd = metadata_open(bdev, data_block_size, may_format_device, policy_hint_size);
+-	if (!IS_ERR(cmd)) {
++	if (cmd) {
+ 		mutex_lock(&table_lock);
+ 		cmd2 = lookup(bdev);
+ 		if (cmd2) {
+@@ -780,10 +780,9 @@ struct dm_cache_metadata *dm_cache_metadata_open(struct block_device *bdev,
+ {
+ 	struct dm_cache_metadata *cmd = lookup_or_open(bdev, data_block_size,
+ 						       may_format_device, policy_hint_size);
+-
+-	if (!IS_ERR(cmd) && !same_params(cmd, data_block_size)) {
++	if (cmd && !same_params(cmd, data_block_size)) {
+ 		dm_cache_metadata_close(cmd);
+-		return ERR_PTR(-EINVAL);
++		return NULL;
+ 	}
+ 
+ 	return cmd;
+-- 
+2.1.4
+

@@ -1,0 +1,77 @@
+From 34317020b845a13654ab9953a4eb00f6995c9255 Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Wed, 25 Feb 2015 17:14:57 +0000
+Subject: [PATCH 183/193] perf: Add support for performance counter interrupt
+ and enable in DT
+
+---
+ arch/arm/boot/dts/bcm2708.dtsi  | 4 ++++
+ arch/arm/boot/dts/bcm2709.dtsi  | 5 +++++
+ arch/arm/mach-bcm2709/armctrl.c | 6 +++++-
+ 3 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/bcm2708.dtsi b/arch/arm/boot/dts/bcm2708.dtsi
+index aeeabae..0713a1e 100644
+--- a/arch/arm/boot/dts/bcm2708.dtsi
++++ b/arch/arm/boot/dts/bcm2708.dtsi
+@@ -80,6 +80,10 @@
+ 		leds: leds {
+ 			compatible = "gpio-leds";
+ 		};
++
++		arm-pmu {
++			compatible = "arm,arm1176-pmu";
++		};
+ 	};
+ 
+ 	clocks {
+diff --git a/arch/arm/boot/dts/bcm2709.dtsi b/arch/arm/boot/dts/bcm2709.dtsi
+index 6986455..34d2226 100644
+--- a/arch/arm/boot/dts/bcm2709.dtsi
++++ b/arch/arm/boot/dts/bcm2709.dtsi
+@@ -80,6 +80,11 @@
+ 		leds: leds {
+ 			compatible = "gpio-leds";
+ 		};
++
++		arm-pmu {
++			compatible = "arm,cortex-a7-pmu";
++			interrupts = <3 9>;
++		};
+ 	};
+ 
+ 	clocks {
+diff --git a/arch/arm/mach-bcm2709/armctrl.c b/arch/arm/mach-bcm2709/armctrl.c
+index 6e3f0f2..fc6cb8b 100644
+--- a/arch/arm/mach-bcm2709/armctrl.c
++++ b/arch/arm/mach-bcm2709/armctrl.c
+@@ -76,6 +76,8 @@ static void armctrl_mask_irq(struct irq_data *d)
+ 	} else if (d->irq >= ARM_IRQ1_BASE && d->irq < ARM_IRQ_LOCAL_BASE) {
+ 		unsigned int data = (unsigned int)irq_get_chip_data(d->irq);
+ 		writel(1 << (data & 0x1f), __io_address(disables[(data >> 5) & 0x3]));
++	} else if (d->irq == INTERRUPT_ARM_LOCAL_PMU_FAST) {
++		writel(0xf, __io_address(ARM_LOCAL_PM_ROUTING_CLR));
+ 	} else { printk("%s: %d\n", __func__, d->irq); BUG(); }
+ }
+ 
+@@ -119,6 +121,8 @@ static void armctrl_unmask_irq(struct irq_data *d)
+ 	} else if (d->irq >= ARM_IRQ1_BASE && d->irq < ARM_IRQ_LOCAL_BASE) {
+ 		unsigned int data = (unsigned int)irq_get_chip_data(d->irq);
+ 		writel(1 << (data & 0x1f), __io_address(enables[(data >> 5) & 0x3]));
++	} else if (d->irq == INTERRUPT_ARM_LOCAL_PMU_FAST) {
++		writel(0xf, __io_address(ARM_LOCAL_PM_ROUTING_SET));
+ 	} else { printk("%s: %d\n", __func__, d->irq); BUG(); }
+ }
+ 
+@@ -145,7 +149,7 @@ static int armctrl_xlate(struct irq_domain *d, struct device_node *ctrlr,
+         if (WARN_ON(intspec[0] == 0 && intspec[1] >= NR_IRQS_BANK0))
+                 return -EINVAL;
+ 
+-        if (WARN_ON(intspec[0] == 3 && intspec[1] > 3 && intspec[1] != 5))
++        if (WARN_ON(intspec[0] == 3 && intspec[1] > 3 && intspec[1] != 5 && intspec[1] != 9))
+                 return -EINVAL;
+ 
+ 	if (intspec[0] == 0)
+-- 
+2.1.4
+
