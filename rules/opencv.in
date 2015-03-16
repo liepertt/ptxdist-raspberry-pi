@@ -2,18 +2,19 @@
 
 menuconfig OPENCV
 	tristate
-	prompt "opencv"
+	prompt "opencv                        "
 	select HOST_CMAKE
 	select GCCLIBS_CXX
 	select ZLIB
 	select LIBPNG
 	select LIBJPEG
 	select QT5			if OPENCV_QT
-	select QT5_BUILD_QTESTLIB	if OPENCV_QT
-	select QT5_BUILD_GUI		if OPENCV_QT
-	select QT5_STL			if OPENCV_QT
+#	select QT5_BUILD_QTESTLIB	if OPENCV_QT
+#	select QT5_BUILD_GUI		if OPENCV_QT
+#	select QT5_STL			if OPENCV_QT
 	select GSTREAMER		if OPENCV_GSTREAMER
 	select V4L_UTILS		if OPENCV_V4L_LIBV4L2
+	select V4L_UTILS_LIBV4L1	if OPENCV_V4L_LIBV4L2
 	select V4L_UTILS_LIBV4L2	if OPENCV_V4L_LIBV4L2
 	help
 	  Open Source Computer Vision Library
