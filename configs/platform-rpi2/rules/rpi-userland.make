@@ -66,13 +66,13 @@ $(STATEDIR)/rpi-userland.targetinstall:
 	@$(call install_fixup, rpi-userland, AUTHOR, "Tim Sander <tim@krieglstein.org>")
 	@$(call install_fixup, rpi-userland, DESCRIPTION, missing)
 
-	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find bin sbin usr/bin usr/sbin -type f); do \
+	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find opt/vc/bin -type f); do \
 		$(call install_copy, rpi-userland, 0, 0, 0755, -, /$$i); \
 	done
-	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find lib usr/lib -name "*.so*"); do \
+	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find opt/vc/lib -name "*.so*"); do \
 		$(call install_copy, rpi-userland, 0, 0, 0644, -, /$$i); \
 	done
-	@links="$(shell cd $(RPI_USERLAND_PKGDIR) && find lib usr/lib -type l)"; \
+	@links="$(shell cd $(RPI_USERLAND_PKGDIR) && find lib opt/vc/lib -type l)"; \
 	if [ -n "$$links" ]; then \
 		for i in $$links; do \
 			from="`readlink $(RPI_USERLAND_PKGDIR)/$$i`"; \
