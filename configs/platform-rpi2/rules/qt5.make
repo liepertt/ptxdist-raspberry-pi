@@ -249,6 +249,7 @@ $(STATEDIR)/qt5.targetinstall:
 	@$(call install_lib, qt5, 0, 0, 0644, libQt5SerialPort)
 #Qt5 plugins
 	@$(call install_tree, qt5, 0, 0, -, /usr/plugins/)
+	@$(call install_tree, qt5, 0, 0, -, /usr/qml/)
 
 #QML not needed?
 #@$(call install_tree, qt5, 0, 0, -, /usr/qml/)
