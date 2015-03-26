@@ -18,6 +18,7 @@ menuconfig QT5
 	select LIBPNG	
 	select LIBJPEG
 	select SQLITE
+	select RPI_USERLAND
 
 	select OPENSSL
 	#select MESALIB
