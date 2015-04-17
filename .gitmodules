@@ -1,0 +1,4 @@
+[submodule "local_src/info_screen"]
+	path = local_src/info_screen
+	url = git@gitlab.com:k6devel/qt-public-info-screen.git
+	branch = master

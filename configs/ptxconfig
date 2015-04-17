@@ -2,8 +2,10 @@
 # Automatically generated file; DO NOT EDIT.
 # PTXdist 2015.02.0
 #
+PTXCONF_K6RSS=y
 # PTXCONF_RASPI_TEST is not set
 PTXCONF_RASPICAM=y
+# PTXCONF_RASPICAMTEST is not set
 PTXCONF_RPI_USERLAND=y
 
 #

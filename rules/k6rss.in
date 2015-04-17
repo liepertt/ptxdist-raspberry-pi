@@ -1,0 +1,8 @@
+## SECTION=project_specific
+
+config K6RSS
+	bool
+	prompt "k6rss"
+	select QT5
+	help
+	  k6devel rss feed reader example project
