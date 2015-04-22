@@ -12,3 +12,109 @@ Select the platform:
 
 $ ptxdist platform \
   configs/platform-pengutronix-raspberrypi/platformconfig
+
+Hints regarding set-up of a build machine:
+------------------------------------------
+links:
+debian-7.8.0-amd64-netinst.iso - http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
+ptxdist for Raspberry Pi - https://gitorious.org/ptxdist-raspberry-pi
+oselas tool chain - http://www.pengutronix.de/oselas/toolchain/index_en.html
+ptxdist-2015.02.0.tar.bz2 - http://www.ptxdist.org/software/ptxdist/download/
+
+legend:
+R: <command> - execute command as root
+U: <command> - execute command as user
+
+! install debian 7.8 64-bit (duration approx. 20 min)
+* the virtual machine I used has a 50 GB harddrive, 16 GB memory, 4 cores. after the the raspberry pi target images has been created 16 GB harddrive space is used.
+* set vm graphic card memory to 128 MB
+* start vm with file 'debian-7.8.0-amd64-netinst.iso'
++ Install
++ English-English
++ other->Europe->Germany
++ United States - en_US.UTF-8
++ German
++ Hostname: <arbitrary e.g. computerag20140407>
++ Domain name: <empty>
++ Root password: <root_password>
++ Full name for the new user: <arbitrary>
++ Username for your account: <arbitrary>
++ Choose a password for the new user: <user_password>
++ Partitioning method: Guided - use entire disk
++ Partition scheme: All files in one partition (recommended for new users)
++ Finish partitioning and write changes to disk
++ Write the changes to disks? Yes
++ Debian archive mirror country: Germany
++ Debian archive mirror: <arbitrary>
+- wait approx. 10 min
++ Participate in the package usage survey? No
++ Choose software to install: Debian desktop environment, SSH server, Standard system utilities 
+- wait approx. 30 min
++ Install the GRUB boot loader to the master boot record? Yes
++ Finish the installation: Continue
+
+! clone ptxdist-raspberry-pi repository (duration approx. 5 min)
+* login as normal user 
+* check if file ~/.ssh/id_rsa.pub exisit
+* if not execute 'ssh-keygen -t rsa'
++ login at https://gitlab.com
++ click 'profile settings' icon
++ click 'SSH Key' icon
++ click 'Add SSH Key' button
++ copy content of 'id_rsa.pub' into 'Key' field and click 'Add Key' button 
+* install git
+R: apt-get update
+R: apt-get install git
++ clone ptxdist-raspberry-pi git repository
+U: git clone git@gitlab.com:k6devel/ptxdist-raspberry-pi.git rpi2
+U: more ~/rpi2/configs/ptxconfig
+U: more ~/rpi2/configs/plattform-raspberrypi/platformconfig
+
+! add user to sudoer file (duration approx. 5 min)
+* execute following command as root
+R: gedit /etc/sudoers &
+* below line 'root    ALL=(ALL:ALL) ALL' add the following: '<userid>    ALL=(ALL:ALL) ALL'
+* be aware that the placeholder <userid> has to be replaced with user id of the normal user 
+* save file and close editor
+
+! set up auto-completion for apt-get (duration approx. 5 min)
+* execute following command as root
+R: gedit /etc/bash.bashrc &
+* below the line '# enable bash completion in interactive shells' uncomment the following 7 lines, i.e. remove the comment character from each line
+* save file and close editor
+R: source /etc/bash.bashrc
+
+! install tool chain (duration approx. 5 min)
+R: echo 'deb http://debian.pengutronix.de/debian/ sid main contrib non-free' > /etc/apt/sources.list.d/pengutronix.list
+R: apt-get update
+R: apt-get install oselas.toolchain-2013.12.2-arm-v7a-linux-gnueabihf-gcc-4.8.3-glibc-2.18-binutils-2.24-kernel-3.12-sanitized
+
+! install additional packages (duration approx. 5 min)
+R: apt-get install build-essential
+R: apt-get install libncurses5-dev
+R: apt-get install flex
+R: apt-get install bison
+R: apt-get install gawk
+R: apt-get install python-dev
+R: apt-get install moreutils
+R: apt-get install gettext
+
+! install ptxdist installieren (duration ca. 5 min)
+* download ptxdist-2015.02.0.tar.bz2, make and install
+U: cd
+U: ls
+U: execute 'tar xjf Downloads/ptxdist-2015.02.0.tar.bz2' with in the home directory (i.e. '~')
+U: cd ptxdist-2015.02.0
+U: ./configure
+U: make -j 4
+U: sudo make install
+U: rm -rf ~/ptxdist-2015.02.0
+
+! start image creation (duration approx. 80-400 min)
+U: cd ~/rpi2
+U: ptxdist platform configs/platform-rpi2/platformconfig
+U: ptxdist images
+- wait approx. 2-6 hours
++ in case an error occurs in package 'k6rss', deselect the package using ptxdist menuconfig and start 'ptxdist images' again
++ created image file 'hd.img' resides in directory '~/rpi2/platform-raspberrypi/images'
+
