@@ -60,9 +60,10 @@ $(STATEDIR)/k6rss.targetinstall:
 #	# example code:; copy all binaries
 #	#
 
-	@for i in $(shell cd $(K6RSS_PKGDIR) && find bin sbin usr/bin usr/sbin -type f); do \
-		$(call install_copy, k6rss, 0, 0, 0755, -, /$$i); \
-	done
+#	@for i in $(shell cd $(K6RSS_PKGDIR) && find bin sbin usr/bin usr/sbin -type f); do \
+#		$(call install_copy, k6rss, 0, 0, 0755, -, /$$i); \
+#	done
+	$(call install_copy, k6rss, 0, 0, 0755, $(K6RSS_DIR)-build/qt-gui, /usr/bin/k6rss); 
 
 #	#
 #	# FIXME: add all necessary things here
