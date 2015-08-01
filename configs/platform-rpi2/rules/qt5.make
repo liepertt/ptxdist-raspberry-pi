@@ -250,6 +250,8 @@ $(STATEDIR)/qt5.targetinstall:
 #Qt5 plugins
 	@$(call install_tree, qt5, 0, 0, -, /usr/plugins/)
 	@$(call install_tree, qt5, 0, 0, -, /usr/qml/)
+#Qt5 fonts
+	@$(call install_tree, qt5, 0, 0, -, /usr/lib/fonts)
 
 #QML not needed?
 #@$(call install_tree, qt5, 0, 0, -, /usr/qml/)
