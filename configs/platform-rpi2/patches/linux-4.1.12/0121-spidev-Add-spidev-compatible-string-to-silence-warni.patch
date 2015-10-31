@@ -1,0 +1,26 @@
+From 18952e8ccf8d64fb32bb7b2bbd04967047f02840 Mon Sep 17 00:00:00 2001
+From: Phil Elwell <phil@raspberrypi.org>
+Date: Tue, 14 Jul 2015 10:26:09 +0100
+Subject: [PATCH 121/204] spidev: Add "spidev" compatible string to silence
+ warning
+
+See: https://github.com/raspberrypi/linux/issues/1054
+---
+ drivers/spi/spidev.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/spi/spidev.c b/drivers/spi/spidev.c
+index 8fab566..a9db602 100644
+--- a/drivers/spi/spidev.c
++++ b/drivers/spi/spidev.c
+@@ -707,6 +707,7 @@ static struct class *spidev_class;
+ #ifdef CONFIG_OF
+ static const struct of_device_id spidev_dt_ids[] = {
+ 	{ .compatible = "rohm,dh2228fv" },
++	{ .compatible = "spidev" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, spidev_dt_ids);
+-- 
+2.6.2
+

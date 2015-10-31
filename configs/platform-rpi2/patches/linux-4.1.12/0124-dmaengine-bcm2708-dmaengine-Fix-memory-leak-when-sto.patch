@@ -1,0 +1,25 @@
+From 0cfac48f6780a5038da6e0fc0e37dfc3975f2077 Mon Sep 17 00:00:00 2001
+From: Robert Tiemann <rtie@gmx.de>
+Date: Fri, 17 Jul 2015 09:50:55 +0200
+Subject: [PATCH 124/204] dmaengine: bcm2708-dmaengine: Fix memory leak when
+ stopping a running transfer
+
+---
+ drivers/dma/bcm2708-dmaengine.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/dma/bcm2708-dmaengine.c b/drivers/dma/bcm2708-dmaengine.c
+index 987ed53..73c6c00 100644
+--- a/drivers/dma/bcm2708-dmaengine.c
++++ b/drivers/dma/bcm2708-dmaengine.c
+@@ -964,6 +964,7 @@ static int bcm2835_dma_terminate_all(struct dma_chan *chan)
+ 	 * c->desc is NULL and exit.)
+ 	 */
+ 	if (c->desc) {
++		bcm2835_dma_desc_free(&c->desc->vd);
+ 		c->desc = NULL;
+ 		bcm2835_dma_abort(c->chan_base);
+ 
+-- 
+2.6.2
+

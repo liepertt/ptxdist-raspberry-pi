@@ -1,0 +1,69 @@
+From 671205b0f0ec871b8fcabbab6d9a2ffb3444378c Mon Sep 17 00:00:00 2001
+From: Uli Middelberg <uli@middelberg.de>
+Date: Wed, 17 Jun 2015 10:36:56 +0200
+Subject: [PATCH 150/204] added basic docker support
+
+---
+ arch/arm/configs/bcm2709_defconfig | 3 +++
+ arch/arm/configs/bcmrpi_defconfig  | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index e3155da..661f09a 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -17,6 +17,7 @@ CONFIG_IKCONFIG=m
+ CONFIG_IKCONFIG_PROC=y
+ CONFIG_CGROUP_FREEZER=y
+ CONFIG_CGROUP_DEVICE=y
++CONFIG_CPUSETS=y
+ CONFIG_CGROUP_CPUACCT=y
+ CONFIG_MEMCG=y
+ CONFIG_BLK_CGROUP=y
+@@ -418,6 +419,7 @@ CONFIG_MD_RAID0=m
+ CONFIG_BLK_DEV_DM=m
+ CONFIG_DM_CRYPT=m
+ CONFIG_DM_SNAPSHOT=m
++CONFIG_DM_THIN_PROVISIONING=m
+ CONFIG_DM_MIRROR=m
+ CONFIG_DM_LOG_USERSPACE=m
+ CONFIG_DM_RAID=m
+@@ -1115,6 +1117,7 @@ CONFIG_QFMT_V2=m
+ CONFIG_AUTOFS4_FS=y
+ CONFIG_FUSE_FS=m
+ CONFIG_CUSE=m
++CONFIG_OVERLAY_FS=m
+ CONFIG_FSCACHE=y
+ CONFIG_FSCACHE_STATS=y
+ CONFIG_FSCACHE_HISTOGRAM=y
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 0859113..06e7529 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -16,6 +16,7 @@ CONFIG_IKCONFIG=m
+ CONFIG_IKCONFIG_PROC=y
+ CONFIG_CGROUP_FREEZER=y
+ CONFIG_CGROUP_DEVICE=y
++CONFIG_CPUSETS=y
+ CONFIG_CGROUP_CPUACCT=y
+ CONFIG_MEMCG=y
+ CONFIG_BLK_CGROUP=y
+@@ -411,6 +412,7 @@ CONFIG_MD_RAID0=m
+ CONFIG_BLK_DEV_DM=m
+ CONFIG_DM_CRYPT=m
+ CONFIG_DM_SNAPSHOT=m
++CONFIG_DM_THIN_PROVISIONING=m
+ CONFIG_DM_MIRROR=m
+ CONFIG_DM_LOG_USERSPACE=m
+ CONFIG_DM_RAID=m
+@@ -1108,6 +1110,7 @@ CONFIG_QFMT_V2=m
+ CONFIG_AUTOFS4_FS=y
+ CONFIG_FUSE_FS=m
+ CONFIG_CUSE=m
++CONFIG_OVERLAY_FS=m
+ CONFIG_FSCACHE=y
+ CONFIG_FSCACHE_STATS=y
+ CONFIG_FSCACHE_HISTOGRAM=y
+-- 
+2.6.2
+

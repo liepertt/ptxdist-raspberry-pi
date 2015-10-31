@@ -1,0 +1,62 @@
+From c7158fd021cf31f5fb67768796aecabde5ff6727 Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Sun, 4 Oct 2015 12:36:44 +0100
+Subject: [PATCH 203/204] config: Add options for supporting openlabs 802.15.4
+ radio
+
+---
+ arch/arm/configs/bcm2709_defconfig | 6 ++++++
+ arch/arm/configs/bcmrpi_defconfig  | 6 ++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index 05383c0..fb402e8 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -283,6 +283,9 @@ CONFIG_VLAN_8021Q=m
+ CONFIG_VLAN_8021Q_GVRP=y
+ CONFIG_ATALK=m
+ CONFIG_6LOWPAN=m
++CONFIG_IEEE802154=m
++CONFIG_IEEE802154_6LOWPAN=m
++CONFIG_MAC802154=m
+ CONFIG_NET_SCHED=y
+ CONFIG_NET_SCH_CBQ=m
+ CONFIG_NET_SCH_HTB=m
+@@ -529,6 +532,9 @@ CONFIG_ZD1211RW=m
+ CONFIG_MWIFIEX=m
+ CONFIG_MWIFIEX_SDIO=m
+ CONFIG_WIMAX_I2400M_USB=m
++CONFIG_IEEE802154_AT86RF230=m
++CONFIG_IEEE802154_MRF24J40=m
++CONFIG_IEEE802154_CC2520=m
+ CONFIG_INPUT_POLLDEV=m
+ # CONFIG_INPUT_MOUSEDEV_PSAUX is not set
+ CONFIG_INPUT_JOYDEV=m
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 0f315d8..eb81555e 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -276,6 +276,9 @@ CONFIG_VLAN_8021Q=m
+ CONFIG_VLAN_8021Q_GVRP=y
+ CONFIG_ATALK=m
+ CONFIG_6LOWPAN=m
++CONFIG_IEEE802154=m
++CONFIG_IEEE802154_6LOWPAN=m
++CONFIG_MAC802154=m
+ CONFIG_NET_SCHED=y
+ CONFIG_NET_SCH_CBQ=m
+ CONFIG_NET_SCH_HTB=m
+@@ -522,6 +525,9 @@ CONFIG_ZD1211RW=m
+ CONFIG_MWIFIEX=m
+ CONFIG_MWIFIEX_SDIO=m
+ CONFIG_WIMAX_I2400M_USB=m
++CONFIG_IEEE802154_AT86RF230=m
++CONFIG_IEEE802154_MRF24J40=m
++CONFIG_IEEE802154_CC2520=m
+ CONFIG_INPUT_POLLDEV=m
+ # CONFIG_INPUT_MOUSEDEV_PSAUX is not set
+ CONFIG_INPUT_JOYDEV=m
+-- 
+2.6.2
+
