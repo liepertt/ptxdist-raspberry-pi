@@ -1,3 +1,4 @@
+device_tree=bcm2709-rpi-2-b.dtb
 dtoverlay=pwm-2chan
 # Set stdv mode to PAL (as used in Europe)
 #sdtv_mode=2
