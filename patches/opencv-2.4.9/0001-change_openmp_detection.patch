@@ -1,0 +1,26 @@
+--- opencv-2.4.9/cmake/OpenCVFindLibsPerf.cmake.orig	2016-02-21 17:02:11.414510832 +0100
++++ opencv-2.4.9/cmake/OpenCVFindLibsPerf.cmake	2016-02-21 17:05:36.451554133 +0100
+@@ -47,13 +47,17 @@
+ endif()
+ 
+ # --- OpenMP ---
+-if(WITH_OPENMP AND NOT HAVE_TBB AND NOT HAVE_CSTRIPES)
+-  find_package(OpenMP)
+-  if(OPENMP_FOUND)
+-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
++if(NOT HAVE_TBB AND NOT HAVE_CSTRIPES)
++  include (FindOpenMP) # -- since cmake version 2.6.3
++  if (OPENMP_FOUND)
++    set (HAVE_OPENMP TRUE)
++    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
++    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
++  else()
++    set ( HAVE_OPENMP FALSE)
+   endif()
+-  set(HAVE_OPENMP "${OPENMP_FOUND}")
++  else()
++  set(HAVE_OPENMP 0)
+ endif()
+ 
+ # --- GCD ---
