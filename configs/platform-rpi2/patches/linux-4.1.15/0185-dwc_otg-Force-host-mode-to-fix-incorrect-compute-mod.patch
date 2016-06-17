@@ -1,0 +1,26 @@
+From 24a9683edd38171e27a170b95a42133c2bd3890f Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Thu, 17 Sep 2015 17:13:42 +0100
+Subject: [PATCH 185/204] dwc_otg: Force host mode to fix incorrect compute
+ module boards
+
+---
+ drivers/usb/host/dwc_otg/dwc_otg_cil.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/dwc_otg/dwc_otg_cil.c b/drivers/usb/host/dwc_otg/dwc_otg_cil.c
+index e40060f..beaa8b3 100644
+--- a/drivers/usb/host/dwc_otg/dwc_otg_cil.c
++++ b/drivers/usb/host/dwc_otg/dwc_otg_cil.c
+@@ -192,7 +192,7 @@ dwc_otg_core_if_t *dwc_otg_cil_init(const uint32_t * reg_base_addr)
+ 		core_if->hptxfsiz.d32 =
+ 		DWC_READ_REG32(&core_if->core_global_regs->hptxfsiz);
+ 		gusbcfg.d32 =  DWC_READ_REG32(&core_if->core_global_regs->gusbcfg);
+-		gusbcfg.b.force_host_mode = 0;
++		gusbcfg.b.force_host_mode = 1;
+ 		DWC_WRITE_REG32(&core_if->core_global_regs->gusbcfg, gusbcfg.d32);
+ 		dwc_mdelay(100);
+ 	}
+-- 
+2.6.2
+

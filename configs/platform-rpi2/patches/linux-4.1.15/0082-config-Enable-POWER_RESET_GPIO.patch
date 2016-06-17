@@ -1,0 +1,39 @@
+From 1ae977a7312c852775ea4bd9da294d7010e42dff Mon Sep 17 00:00:00 2001
+From: popcornmix <popcornmix@gmail.com>
+Date: Tue, 23 Jun 2015 14:10:58 +0100
+Subject: [PATCH 082/204] config: Enable POWER_RESET_GPIO
+
+---
+ arch/arm/configs/bcm2709_defconfig | 2 ++
+ arch/arm/configs/bcmrpi_defconfig  | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index 7e8643c..46d56d7 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -606,6 +606,8 @@ CONFIG_W1_SLAVE_DS2781=m
+ CONFIG_W1_SLAVE_DS28E04=m
+ CONFIG_W1_SLAVE_BQ27000=m
+ CONFIG_BATTERY_DS2760=m
++CONFIG_POWER_RESET=y
++CONFIG_POWER_RESET_GPIO=y
+ # CONFIG_HWMON is not set
+ CONFIG_THERMAL=y
+ CONFIG_THERMAL_BCM2835=y
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index 0c25d8b..e757db6 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -599,6 +599,8 @@ CONFIG_W1_SLAVE_DS2781=m
+ CONFIG_W1_SLAVE_DS28E04=m
+ CONFIG_W1_SLAVE_BQ27000=m
+ CONFIG_BATTERY_DS2760=m
++CONFIG_POWER_RESET=y
++CONFIG_POWER_RESET_GPIO=y
+ # CONFIG_HWMON is not set
+ CONFIG_THERMAL=y
+ CONFIG_THERMAL_BCM2835=y
+-- 
+2.6.2
+

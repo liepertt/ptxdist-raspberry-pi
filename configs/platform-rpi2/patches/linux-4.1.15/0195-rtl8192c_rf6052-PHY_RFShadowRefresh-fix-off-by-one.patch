@@ -1,0 +1,27 @@
+From 086762172d642cb61800e0703dfa6982b089cd57 Mon Sep 17 00:00:00 2001
+From: Marc Kleine-Budde <mkl@blackshift.org>
+Date: Sat, 12 Sep 2015 17:29:59 +0200
+Subject: [PATCH 195/204] rtl8192c_rf6052: PHY_RFShadowRefresh(): fix
+ off-by-one
+
+Signed-off-by: Marc Kleine-Budde <mkl@blackshift.org>
+---
+ drivers/net/wireless/rtl8192cu/hal/rtl8192c/rtl8192c_rf6052.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/wireless/rtl8192cu/hal/rtl8192c/rtl8192c_rf6052.c b/drivers/net/wireless/rtl8192cu/hal/rtl8192c/rtl8192c_rf6052.c
+index d4e92f8..a3cd013 100644
+--- a/drivers/net/wireless/rtl8192cu/hal/rtl8192c/rtl8192c_rf6052.c
++++ b/drivers/net/wireless/rtl8192cu/hal/rtl8192c/rtl8192c_rf6052.c
+@@ -1015,7 +1015,7 @@ PHY_RFShadowRefresh(
+ 
+ 	for (eRFPath = 0; eRFPath < RF6052_MAX_PATH; eRFPath++)
+ 	{
+-		for (Offset = 0; Offset <= RF6052_MAX_REG; Offset++)
++		for (Offset = 0; Offset < RF6052_MAX_REG; Offset++)
+ 		{
+ 			RF_Shadow[eRFPath][Offset].Value = 0;
+ 			RF_Shadow[eRFPath][Offset].Compare = _FALSE;
+-- 
+2.6.2
+
