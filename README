@@ -18,11 +18,11 @@ DistroKit is built with ptxdist. In order to install ptxdist, download
 the tarball from [2]:
 
 $ wget \
-  http://www.pengutronix.de/software/ptxdist/download/ptxdist-2013.05.0.tar.bz2
+  http://www.pengutronix.de/software/ptxdist/download/ptxdist-2016.10.0.tar.bz2
 
 Extract the tarball:
 
-$ tar xf ptxdist-2013.05.0 && cd ptxdist-2013.05.0
+$ tar xf ptxdist-2016.10.0 && cd ptxdist-2016.10.0
 
 Go to the extracted directory and run
 
@@ -52,6 +52,15 @@ toolchain sources from
 
 and build them manually.
 
+The needed toolchain for Rasperry Pi 2/3 builds is 
+OSELAS.Toolchain-2016.06.0/arm-v7a-linux-gnueabihf/gcc-5.4.0-glibc-2.23-binutils-2.26-kernel-4.6-sanitized
+
+Debian Toolchains are available at (/etc/apt/sources.list)
+deb http://debian.pengutronix.de/debian/ sid main contrib non-free
+
+To install use:
+apt update
+apt install oselas.toolchain-2016.06.0-arm-v7a-linux-gnueabihf-gcc-5.4.0-glibc-2.23-binutils-2.26-kernel-4.6-sanitized
 
 Building DistroKit
 ------------------
