@@ -67,7 +67,8 @@ Building DistroKit
 
 Now everything is prepared to build the BSP:
 
-$ ptxdist go
+$ ptxdist platform configs/platform-rpi2/platformconfig
+$ ptxdist images
 
 PTXdist determines the number of CPUs on your computer and runs the
 compiler with <twice the number of CPUs> instances in parallel.
