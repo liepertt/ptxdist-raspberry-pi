@@ -66,16 +66,18 @@ $(STATEDIR)/rpi-userland.targetinstall:
 	@$(call install_fixup, rpi-userland, AUTHOR, "Tim Sander <tim@krieglstein.org>")
 	@$(call install_fixup, rpi-userland, DESCRIPTION, missing)
 
-	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find opt/vc/sbin -type f); do \
+	$(call install_alternative, rpi-userland, 0, 0, 0644, /etc/modules-load.d/video.conf)
+
+	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find usr/sbin -type f); do \
 		$(call install_copy, rpi-userland, 0, 0, 0755, $(RPI_USERLAND_PKGDIR)/$$i, /usr/sbin/$$(basename $$i)); \
 	done
-	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find opt/vc/bin -type f); do \
+	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find usr/bin -type f); do \
 		$(call install_copy, rpi-userland, 0, 0, 0755, $(RPI_USERLAND_PKGDIR)/$$i, /usr/bin/$$(basename $$i)); \
 	done
-	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find opt/vc/lib -name "*.so*"); do \
+	@for i in $(shell cd $(RPI_USERLAND_PKGDIR) && find usr/lib -name "*.so*"); do \
 		$(call install_copy, rpi-userland, 0, 0, 0644, $(RPI_USERLAND_PKGDIR)/$$i, /usr/lib/$$(basename $$i)); \
 	done
-	@links="$(shell cd $(RPI_USERLAND_PKGDIR) && find lib opt/vc/lib -type l)"; \
+	@links="$(shell cd $(RPI_USERLAND_PKGDIR) && find lib usr/lib -type l)"; \
 	if [ -n "$$links" ]; then \
 		for i in $$links; do \
 			from="`readlink $(RPI_USERLAND_PKGDIR)/$$i`"; \
