@@ -1,0 +1,7 @@
+## SECTION=system_libraries
+
+config LIBGOMP
+	tristate
+	prompt "libgomp"
+	help
+	  copy libgomp from toolchain dir to root for openmp
