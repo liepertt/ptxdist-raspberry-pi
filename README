@@ -22,7 +22,7 @@ $ wget \
 
 Extract the tarball:
 
-$ tar xf ptxdist-2016.10.0 && cd ptxdist-2016.10.0
+$ tar xf ptxdist-2016.10.0.tar.bz2 && cd ptxdist-2016.10.0
 
 Go to the extracted directory and run
 
