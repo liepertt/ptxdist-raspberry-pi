@@ -80,7 +80,8 @@ $(STATEDIR)/libgomp.targetinstall:
 	@$(call install_fixup, libgomp,DESCRIPTION,missing)
 	@$(call install_copy, libgomp, 0, 0, 0755, $(LIBGOMPPATH1).1.0.0, /usr/lib/libgomp.so.1.0.0)
 	@$(call install_link, libgomp, libgomp.so.1.0.0, /usr/lib/libgomp.so.1.0)
-	@$(call install_link, libgomp, libgomp.so.1.0, /usr/lib/libgomp.so)
+	@$(call install_link, libgomp, libgomp.so.1.0.0, /usr/lib/libgomp.so.1)
+	@$(call install_link, libgomp, libgomp.so.1.0.0, /usr/lib/libgomp.so)
 	@$(call install_finish, libgomp)
 	@$(call touch)
 
