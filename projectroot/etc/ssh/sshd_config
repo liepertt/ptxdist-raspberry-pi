@@ -103,3 +103,6 @@ PermitEmptyPasswords yes
 
 # override default of no subsystems
 Subsystem	sftp	/usr/sbin/sftp-server
+
+# necessary for device test (qtcreator)
+Ciphers +aes128-cbc
