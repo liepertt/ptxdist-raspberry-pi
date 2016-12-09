@@ -1,4 +1,5 @@
-[network]
+[Network]
 DHCP=yes
 LinkLocalAddressing=yes
+LLMNR=true
 IPv4LLRoute=true
